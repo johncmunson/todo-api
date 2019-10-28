@@ -1,0 +1,23 @@
+{
+  "development": {
+    "dialect": "sqlite",
+    "storage": "./todoDB.sqlite",
+    "define": {
+      "freezeTableName": true
+    }
+  },
+  "test": {
+    "dialect": "sqlite",
+    "storage": ":memory",
+    "define": {
+      "freezeTableName": true
+    }
+  },
+  "production": {
+    "dialect": "sqlite",
+    "storage": "./todoDB.sqlite",
+    "define": {
+      "freezeTableName": true
+    }
+  }
+}

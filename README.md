@@ -1,0 +1,1 @@
+- must be connected to vpn at home for npm installs to work

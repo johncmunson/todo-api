@@ -1,0 +1,21 @@
+{
+  "name": "todo-app",
+  "version": "1.0.0",
+  "description": "Manage your todos",
+  "main": "index.js",
+  "author": "John Munson <johncmunson91@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^5.0.0-alpha.7",
+    "morgan": "^1.9.1",
+    "sequelize": "^5.21.1",
+    "sqlite3": "^4.1.0"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^5.5.1"
+  }
+}
