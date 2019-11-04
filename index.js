@@ -1,8 +1,14 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const logger = require('morgan')
+const { Model } = require('objection')
+const Knex = require('knex')
+const knexConfig = require('./knexfile')
 const routes = require('./routes')
 const models = require('./models')
+
+const knex = Knex(knexConfig.development)
+Model.knex(knex)
 
 const port = process.env.PORT || 3000
 const app = express()
@@ -12,7 +18,12 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use((req, res, next) => {
-  req.context = { models }
+  req.context = {}
+  next()
+})
+
+app.use((req, res, next) => {
+  req.context.models = models
   next()
 })
 
