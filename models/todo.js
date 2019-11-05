@@ -1,6 +1,6 @@
-const { Model } = require('objection')
+const Base = require('./base')
 
-class Todo extends Model {
+class Todo extends Base {
 
   static get tableName() {
     return 'todo'

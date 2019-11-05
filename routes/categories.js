@@ -9,7 +9,10 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   const { id } = req.params
-  const category = await req.context.models.Category.query().findById(id)
+  const category = await req.context.models.Category
+    .query()
+    .findById(id)
+    .throwIfNotFound()
   return res.status(200).json(category)
 })
 

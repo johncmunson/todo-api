@@ -9,7 +9,10 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   const { id } = req.params
-  const todo = await req.context.models.Todo.query().findById(id)
+  const todo = await req.context.models.Todo
+    .query()
+    .findById(id)
+    .throwIfNotFound()
   return res.status(200).json(todo)
 })
 
