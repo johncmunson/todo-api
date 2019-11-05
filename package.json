@@ -15,7 +15,7 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "express": "^5.0.0-alpha.7",
-    "knex": "^0.20.0",
+    "knex": "^0.20.1",
     "morgan": "^1.9.1",
     "objection": "^1.6.11",
     "objection-db-errors": "^1.1.1",
