@@ -47,6 +47,14 @@ exports.seed = knex => {
       due_date: null,
       priority: 'medium',
       category_id: 3
+    },
+    {
+      title: 'Return some videotapes',
+      complete: false,
+      note: null,
+      due_date: null,
+      priority: 'medium',
+      category_id: null
     }
   ])
 }

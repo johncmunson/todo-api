@@ -16,4 +16,11 @@ router.get('/:id', async (req, res) => {
   return res.status(200).json(todo)
 })
 
+router.post('/', async (req, res) => {
+  const todo = await req.context.models.Todo
+    .query()
+    .insert(req.body);
+  res.status(200).json(todo)
+})
+
 module.exports = router

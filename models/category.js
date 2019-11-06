@@ -1,3 +1,4 @@
+const { Model } = require('objection')
 const Base = require('./base')
 
 class Category extends Base {
