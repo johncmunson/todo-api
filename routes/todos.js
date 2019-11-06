@@ -17,6 +17,7 @@ router.get('/:id', async (req, res) => {
 })
 
 // See this issue for why we're using .insertAndFetch rather than just .insert
+// This makes two database calls, rather than one
 // https://github.com/Vincit/objection.js/issues/1550
 router.post('/', async (req, res) => {
   const todo = await req.context.models.Todo
