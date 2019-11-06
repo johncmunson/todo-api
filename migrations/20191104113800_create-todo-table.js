@@ -3,6 +3,7 @@ exports.up = knex => {
     table.increments('id')
     table.string('title').notNullable()
     table.boolean('complete').notNullable().defaultTo(false)
+    table.boolean('archived').notNullable().defaultTo(false)
     table.text('note')
     table.datetime('due_date')
     table.enum('priority', ['low', 'medium', 'high']).notNullable().defaultTo('medium')

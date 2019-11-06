@@ -16,10 +16,12 @@ router.get('/:id', async (req, res) => {
   return res.status(200).json(todo)
 })
 
+// See this issue for why we're using .insertAndFetch rather than just .insert
+// https://github.com/Vincit/objection.js/issues/1550
 router.post('/', async (req, res) => {
   const todo = await req.context.models.Todo
     .query()
-    .insert(req.body);
+    .insertAndFetch(req.body)
   res.status(200).json(todo)
 })
 

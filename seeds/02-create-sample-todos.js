@@ -3,6 +3,7 @@ exports.seed = knex => {
     {
       title: 'Pickup dry cleaning',
       complete: false,
+      archived: false,
       note: 'They close at 7pm',
       due_date: '2019-11-10 08:30:00',
       priority: 'low',
@@ -11,6 +12,7 @@ exports.seed = knex => {
     {
       title: 'Create meeting agenda',
       complete: false,
+      archived: false,
       note: 'See Jeff\'s email from 8/15',
       due_date: null,
       priority: 'medium',
@@ -19,6 +21,7 @@ exports.seed = knex => {
     {
       title: 'Finish math homework',
       complete: false,
+      archived: false,
       note: 'Only the even problems',
       due_date: '2019-12-15 10:15:00',
       priority: 'high',
@@ -27,6 +30,7 @@ exports.seed = knex => {
     {
       title: 'Buy groceries',
       complete: true,
+      archived: false,
       note: 'Eggs, jelly, and bread',
       due_date: null,
       priority: 'medium',
@@ -35,6 +39,7 @@ exports.seed = knex => {
     {
       title: 'Submit vacation days',
       complete: true,
+      archived: false,
       note: null,
       due_date: '2020-01-01 12:00:00',
       priority: 'low',
@@ -43,6 +48,7 @@ exports.seed = knex => {
     {
       title: 'Read Animal Farm chapter 3',
       complete: true,
+      archived: false,
       note: null,
       due_date: null,
       priority: 'medium',
@@ -51,6 +57,7 @@ exports.seed = knex => {
     {
       title: 'Return some videotapes',
       complete: false,
+      archived: false,
       note: null,
       due_date: null,
       priority: 'medium',

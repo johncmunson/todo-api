@@ -10,10 +10,11 @@ class Todo extends Base {
   static get jsonSchema () {
     return {
       type: 'object',
-      required: [ 'title', 'complete', 'priority' ],
+      required: [ 'title', 'complete', 'archived', 'priority' ],
       properties: {
         title: { type: 'string' },
         complete: { type: 'boolean' },
+        archived: { type: 'boolean' },
         note: { type: 'string' },
         due_date: { type: 'string' },
         priority: { type: 'string' },
