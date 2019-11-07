@@ -35,4 +35,29 @@ router.delete('/:id', async (req, res) => {
   return res.status(204).json()
 })
 
+router.patch('/:id', async (req, res) => {
+  const todo = await req.context.models.Todo
+    .query()
+    .patchAndFetchById(req.params.id, req.body)
+    .throwIfNotFound()
+  res.status(200).json(todo)
+})
+
+// So far, we're not yet allowing PUT to handle upsert operations, only update.
+// This is to avoid any unnecessary complexity, especially since PUT's are not
+// a commonly used HTTP verb.
+// NOTE: .updateAndFetchById() is not on it's own behaving like a RESTful PUT
+// should. A PUT should entirely replace the existing resource. If there's an
+// existing todo item with id = 4 and note = 'lorem ipsum', if I do a PUT to
+// this resource with only the required properties (i.e. no note), then the note
+// should now be set to null, but .updateAndFetchById() is allowing it to keep
+// it's old value.
+router.put('/:id', async (req, res) => {
+  const todo = await req.context.models.Todo
+    .query()
+    .updateAndFetchById(req.params.id, req.body)
+    .throwIfNotFound()
+  res.status(200).json(todo)
+})
+
 module.exports = router

@@ -1,1 +1,1 @@
-- must be connected to vpn at home for npm installs to work
+Because of [quirks with objectionjs](https://github.com/Vincit/objection.js/issues/1302#issuecomment-550974067), and for general purpose architectural reasons, it might make sense to create a repository layer, and also maybe a layer for services and/or controllers.
