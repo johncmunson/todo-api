@@ -26,4 +26,13 @@ router.post('/', async (req, res) => {
   res.status(200).json(todo)
 })
 
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params
+  await req.context.models.Todo
+    .query()
+    .deleteById(id)
+    .throwIfNotFound()
+  return res.status(204).json()
+})
+
 module.exports = router
