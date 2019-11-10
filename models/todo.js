@@ -10,15 +10,19 @@ class Todo extends Base {
   static get jsonSchema () {
     return {
       type: 'object',
+      // A property is required if it's absence would cause Model.$validate()
+      // to fail. Note that this does not necessarily mean that the property is
+      // required when instantiating a new model, as it could have a default
+      // value. In other words, not nullable properties go here.
       required: [ 'title', 'complete', 'archived', 'priority' ],
       properties: {
         title: { type: 'string' },
-        complete: { type: 'boolean' },
-        archived: { type: 'boolean' },
-        note: { type: 'string' },
-        due_date: { type: 'string' },
-        priority: { type: 'string' },
-        category_id: { type: 'integer' }
+        complete: { type: 'boolean', default: false },
+        archived: { type: 'boolean', default: false },
+        note: { type: ['string', 'null'], default: null },
+        due_date: { type: ['string', 'null'], default: null },
+        priority: { type: 'string', default: 'medium' },
+        category_id: { type: ['integer', 'null'], default: null }
       }
     }
   }
