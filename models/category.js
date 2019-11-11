@@ -7,6 +7,16 @@ class Category extends Base {
     return 'category'
   }
 
+  static get jsonSchema() {
+    return {
+      type: 'object',
+      required: [ 'name' ],
+      properties: {
+        name: { type: 'string' }
+      }
+    }
+  }
+
   static get relationMappings() {
     return {
       todos: {
