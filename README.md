@@ -1,1 +1,4 @@
-Because of [quirks with objectionjs](https://github.com/Vincit/objection.js/issues/1302#issuecomment-550974067), and for general purpose architectural reasons, it might make sense to create a repository layer, and also maybe a layer for services and/or controllers.
+- Because of [quirks with objectionjs](https://github.com/Vincit/objection.js/issues/1302#issuecomment-550974067), and for general purpose architectural reasons, it might make sense to create a repository layer, and also maybe a layer for services and/or controllers.
+- swagger
+- jest and tdd
+- convert database types to model types (true vs 1)
