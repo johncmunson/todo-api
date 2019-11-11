@@ -27,6 +27,20 @@ class Todo extends Base {
     }
   }
 
+  $parseDatabaseJson(json) {
+    json = super.$parseDatabaseJson(json)
+    json = this.castValues({ complete: 'boolean', archived: 'boolean' }, json)
+    return json
+  }
+
+  $formatDatabaseJson(json) {
+    json = super.$formatDatabaseJson(json)
+    // SQLite will convert booleans to an integer representation automatically,
+    // but I like to be explicit about it.
+    json = this.castValues({ complete: 'integer', archived: 'integer' }, json)
+    return json
+  }
+
   static get relationMappings() {
     return {
       category: {
