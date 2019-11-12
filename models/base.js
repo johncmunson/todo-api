@@ -36,12 +36,12 @@ class Base extends DBErrors(Model) {
   static readById(id) {
     return this.query().findById(id).throwIfNotFound()
   }
-  static update(id, data) {
-    return this.query().updateAndFetchById(id, data).throwIfNotFound()
-  }
-  static patch(id, data) {
+  static replace(id, data) {
     const newResource = this.fromJson(data)
-    return this.query().patchAndFetchById(id, newResource).throwIfNotFound()
+    return this.query().updateAndFetchById(id, newResource).throwIfNotFound()
+  }
+  static edit(id, data) {
+    return this.query().patchAndFetchById(id, data).throwIfNotFound()
   }
   static delete(id) {
     return this.query().findById(id).delete().throwIfNotFound()

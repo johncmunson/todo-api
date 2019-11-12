@@ -28,14 +28,14 @@ router.delete('/:id', async (req, res) => {
 router.patch('/:id', async (req, res) => {
   const { id } = req.params
   const { body } = req
-  const updatedTodo = await req.context.models.Todo.patch(id, body)
+  const updatedTodo = await req.context.models.Todo.edit(id, body)
   res.status(200).json(updatedTodo)
 })
 
 router.put('/:id', async (req, res) => {
   const { id } = req.params
   const { body } = req
-  const newTodo = await req.context.models.Todo.update(id, body)
+  const newTodo = await req.context.models.Todo.replace(id, body)
   res.status(200).json(newTodo)
 })
 

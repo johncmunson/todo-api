@@ -25,4 +25,18 @@ router.delete('/:id', async (req, res) => {
   return res.status(204).json()
 })
 
+router.patch('/:id', async (req, res) => {
+  const { id } = req.params
+  const { body } = req
+  const updatedCategory = await req.context.models.Todo.edit(id, body)
+  res.status(200).json(updatedTodo)
+})
+
+router.put('/:id', async (req, res) => {
+  const { id } = req.params
+  const { body } = req
+  const newCategory = await req.context.models.Todo.replace(id, body)
+  res.status(200).json(newTodo)
+})
+
 module.exports = router
