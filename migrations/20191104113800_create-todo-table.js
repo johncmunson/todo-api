@@ -14,7 +14,6 @@ exports.up = knex => {
       .unsigned()
       .references('id')
       .inTable('category')
-      .onUpdate('CASCADE')
       .onDelete('SET NULL')
   })
 }
