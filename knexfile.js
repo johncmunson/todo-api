@@ -10,15 +10,12 @@ module.exports = {
     },
     // See Footnote #1
     useNullAsDefault: false,
-    // https://github.com/sindresorhus/camelcase
-    // https://github.com/sindresorhus/decamelize
-    // postProcessResponse: (result, queryContext) => {
-    //   if (Array.isArray(result)) {
-    //     return result.map(row => convertToCamel(row));
-    //   } else {
-    //     return convertToCamel(result);
-    //   }
-    // }
+    pool: {
+      afterCreate: (conn, cb) => {
+        // See Footnote #2
+        conn.run('PRAGMA foreign_keys = ON', cb)
+      }
+    }
   },
 
   staging: {},
@@ -48,4 +45,20 @@ module.exports = {
  *    title: 'Finish homework'
  *  }])
  * }
+ *
+ */
+
+/*
+ * Footnote #2:
+ *
+ * Foreign keys are turned off by default in SQLite. Alternatively, rather than
+ * turning on FKs in the knexfile, you could do it right after instantiating
+ * knex.
+ *
+ * const knex = Knex(knexConfig.development)
+ * knex.client.pool.on('createSuccess', (eventId, resource) => {
+ *   resource.run('PRAGMA foreign_keys = ON', () => {})
+ * })
+ * Model.knex(knex)
+ *
  */

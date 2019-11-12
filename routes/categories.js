@@ -19,8 +19,6 @@ router.post('/', async (req, res) => {
   res.status(201).json(category)
 })
 
-// Ask around in gitter why ON DELETE SET NULL is not working
-// Until then, may need to run some custom SQL or something
 router.delete('/:id', async (req, res) => {
   const { id } = req.params
   await req.context.models.Category.delete(id)
