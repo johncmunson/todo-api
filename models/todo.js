@@ -1,5 +1,6 @@
 const { Model } = require('objection')
 const Base = require('./base')
+const Category = require('./category')
 
 class Todo extends Base {
 
