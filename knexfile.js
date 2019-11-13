@@ -1,3 +1,5 @@
+const { knexSnakeCaseMappers } = require('objection')
+
 module.exports = {
 
   development: {
@@ -15,7 +17,8 @@ module.exports = {
         // See Footnote #2
         conn.run('PRAGMA foreign_keys = ON', cb)
       }
-    }
+    },
+    ...knexSnakeCaseMappers()
   },
 
   staging: {},
