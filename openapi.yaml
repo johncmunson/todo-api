@@ -1,0 +1,241 @@
+openapi: 3.0.0
+info:
+  title: Todo API
+  description: Manage your todos
+  version: "1.0.0"
+  contact:
+    name: John Munson
+    email: johncmunson91@gmail.com
+  license:
+    name: MIT
+    url: 'https://opensource.org/licenses/MIT'
+servers:
+  - url: localhost:3000
+    description: Development server
+tags:
+  - name: todo
+  - name: category
+paths:
+  /todos:
+    get:
+      tags:
+        - todo
+      summary: Get all todos
+      responses:
+        '200':
+          description: Returns all todos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Todo'
+    post:
+      tags:
+        - todo
+      summary: Create new todo
+      responses:
+        '201':
+          description: Returns the successfully created todo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+      requestBody:
+        $ref: '#/components/requestBodies/Todo'
+  '/todos/{id}':
+    parameters:
+      - $ref: '#/components/parameters/id'
+    get:
+      tags:
+        - todo
+      summary: Get a todo
+      responses:
+        '200':
+          description: Returns the requested todo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+    delete:
+      tags:
+        - todo
+      summary: Delete a todo
+      responses:
+        '204':
+          description: Successfully deleted todo, no content to return
+    patch:
+      tags:
+        - todo
+      summary: Edit a todo
+      responses:
+        '200':
+          description: Returns the successfully patched todo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+      requestBody:
+        $ref: '#/components/requestBodies/Todo'
+    put:
+      tags:
+        - todo
+      summary: Replace a todo
+      responses:
+        '200':
+          description: Returns the successfully created todo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+      requestBody:
+        $ref: '#/components/requestBodies/Todo'
+
+  /categories:
+    get:
+      tags:
+        - category
+      summary: Get all categories
+      responses:
+        '200':
+          description: Returns all categories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+    post:
+      tags:
+        - category
+      summary: Create new category
+      responses:
+        '201':
+          description: Returns the successfully created category
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+      requestBody:
+        $ref: '#/components/requestBodies/Category'
+  '/categories/{id}':
+    parameters:
+      - $ref: '#/components/parameters/id'
+    get:
+      tags:
+        - category
+      summary: Get a category
+      responses:
+        '200':
+          description: Returns the requested category
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+    delete:
+      tags:
+        - category
+      summary: Delete a category
+      responses:
+        '204':
+          description: Successfully deleted category, no content to return
+    patch:
+      tags:
+        - category
+      summary: Edit a category
+      responses:
+        '200':
+          description: Returns the successfully patched category
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+      requestBody:
+        $ref: '#/components/requestBodies/Category'
+    put:
+      tags:
+        - category
+      summary: Replace a category
+      responses:
+        '200':
+          description: Returns the successfully created category
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+      requestBody:
+        $ref: '#/components/requestBodies/Category'
+components:
+  schemas:
+    Todo:
+      description: A todo item helps you track what you need to get done
+      type: object
+      required:
+        - title
+        - complete
+        - archived
+        - priority
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        complete:
+          type: boolean
+          default: false
+        archived:
+          type: boolean
+          default: false
+        note:
+          type: string
+          nullable: true
+          default: null
+        dueDate:
+          type: string
+          nullable: true
+          default: null
+        priority:
+          type: string
+          enum:
+            - low
+            - medium
+            - high
+          default: medium
+        categoryId:
+          type: integer
+          nullable: true
+          default: null
+    Category:
+      description: Categories help organize todos
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+  # responses:
+  # this can possibly be used sometime in the future to help DRY up responses
+  # used for paths
+  requestBodies:
+    Todo:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Todo'
+    Category:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Category'
+  parameters:
+    id:
+      name: id
+      in: path
+      description: id of resource
+      required: true
+      schema:
+        type: integer
