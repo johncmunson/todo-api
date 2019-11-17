@@ -1,5 +1,5 @@
 {
-  "name": "todo-app",
+  "name": "todo-api",
   "version": "1.0.0",
   "description": "Manage your todos",
   "main": "index.js",
