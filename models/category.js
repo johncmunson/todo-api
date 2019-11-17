@@ -12,6 +12,7 @@ class Category extends Base {
       type: 'object',
       required: [ 'name' ],
       properties: {
+        id: { type: 'integer' },
         name: { type: 'string' }
       }
     }

@@ -17,13 +17,18 @@ class Todo extends Base {
       // value. In other words, not nullable properties go here.
       required: [ 'title', 'complete', 'archived', 'priority' ],
       properties: {
+        id: { type: 'integer' },
         title: { type: 'string' },
         complete: { type: 'boolean', default: false },
         archived: { type: 'boolean', default: false },
         note: { type: ['string', 'null'], default: null },
-        due_date: { type: ['string', 'null'], default: null },
-        priority: { type: 'string', default: 'medium' },
-        category_id: { type: ['integer', 'null'], default: null }
+        dueDate: { type: ['string', 'null'], default: null },
+        priority: {
+          type: 'string',
+          enum: ['low', 'medium', 'high'],
+          default: 'medium'
+        },
+        categoryId: { type: ['integer', 'null'], default: null }
       }
     }
   }
