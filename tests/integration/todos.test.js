@@ -61,6 +61,17 @@ describe('PATCH /todos/:id', () => {
     expect(patchedTodo.complete).toEqual(true)
     expect(() => Todo.fromJson(patchedTodo)).not.toThrow()
   })
+  it('returns error when given invalid todo', async () => {
+    const todo = { title: 'Buy some flowers' }
+    const { body: newTodo } =
+      await request(app).post('/todos').send(todo)
+    const { body: error, status } =
+      await request(app)
+        .patch(`/todos/${newTodo.id}`)
+        .send({ asdf: 'asdf' })
+    expect(status).toEqual(500)
+    expect(error.type).toEqual('UnknownDatabaseError')
+  })
   it('returns error when editing a todo that does not exist', async () => {
     const { body: error, status } =
       await request(app).delete('/todos/783y4f87y38sf')
