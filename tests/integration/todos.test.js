@@ -31,7 +31,7 @@ describe('POST /todos', () => {
   })
 })
 
-describe('DELETE /todos/{id}', async () => {
+describe('DELETE /todos/:id', () => {
   it('deletes a todo', async () => {
     const todo = { title: 'Return some videotapes' }
     const { body: newTodo, status: newTodoStatus } =
@@ -43,6 +43,27 @@ describe('DELETE /todos/{id}', async () => {
   it('returns error when deleting a todo that does not exist', async () => {
     const { body: error, status } =
       await request(app).delete('/todos/ry7634y8r374')
+    expect(status).toEqual(404)
+    expect(error.type).toEqual('NotFound')
+  })
+})
+
+describe('PATCH /todos/:id', () => {
+  it('edits a todo', async () => {
+    const todo = { title: 'Lift some weights' }
+    const { body: newTodo, status: newTodoStatus } =
+      await request(app).post('/todos').send(todo)
+    const { body: patchedTodo, status: patchedTodoStatus } =
+      await request(app)
+        .patch(`/todos/${newTodo.id}`)
+        .send({ complete: true })
+    expect(patchedTodoStatus).toEqual(200)
+    expect(patchedTodo.complete).toEqual(true)
+    expect(() => Todo.fromJson(patchedTodo)).not.toThrow()
+  })
+  it('returns error when editing a todo that does not exist', async () => {
+    const { body: error, status } =
+      await request(app).delete('/todos/783y4f87y38sf')
     expect(status).toEqual(404)
     expect(error.type).toEqual('NotFound')
   })
