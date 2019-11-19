@@ -1,29 +1,53 @@
+// Initialize .env file here, in addition to index.js, so that it is picked up
+// when running `npm run migrate` or `npm run seed`
+require('dotenv').config()
 const { knexSnakeCaseMappers } = require('objection')
+
+const baseConfig = {
+  client: 'sqlite3',
+  migrations: {
+    tableName: 'knex_migrations'
+  },
+  // See Footnote #1
+  useNullAsDefault: false,
+  pool: {
+    afterCreate: (conn, cb) => {
+      // See Footnote #2
+      conn.run('PRAGMA foreign_keys = ON', cb)
+    }
+  },
+  ...knexSnakeCaseMappers()
+}
 
 module.exports = {
 
   development: {
-    client: 'sqlite3',
+    ...baseConfig,
     connection: {
-      filename: './db.sqlite3'
-    },
-    migrations: {
-      tableName: 'knex_migrations'
-    },
-    // See Footnote #1
-    useNullAsDefault: false,
-    pool: {
-      afterCreate: (conn, cb) => {
-        // See Footnote #2
-        conn.run('PRAGMA foreign_keys = ON', cb)
-      }
-    },
-    ...knexSnakeCaseMappers()
+      filename: './dev-db.sqlite3'
+    }
   },
 
-  staging: {},
+  test: {
+    ...baseConfig,
+    connection: {
+      filename: './test-db.sqlite3'
+    }
+  },
 
-  production: {}
+  staging: {
+    ...baseConfig,
+    connection: {
+      filename: './staging-db.sqlite3'
+    }
+  },
+
+  production: {
+    ...baseConfig,
+    connection: {
+      filename: './prod-db.sqlite3'
+    }
+  }
 
 }
 

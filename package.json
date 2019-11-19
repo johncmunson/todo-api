@@ -2,6 +2,10 @@
   "name": "todo-api",
   "version": "1.0.0",
   "description": "Manage your todos",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/johncmunson/todo-api"
+  },
   "main": "index.js",
   "author": "John Munson <johncmunson91@gmail.com>",
   "license": "MIT",
@@ -10,16 +14,23 @@
     "create-migration": "knex migrate:make",
     "migrate": "knex migrate:latest",
     "create-seed": "knex seed:make",
-    "seed": "knex seed:run"
+    "seed": "knex seed:run",
+    "test": "jest tests",
+    "test-unit": "jest tests/unit",
+    "test-integration": "jest tests/integration"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
     "express": "^5.0.0-alpha.7",
     "knex": "^0.20.1",
     "morgan": "^1.9.1",
     "objection": "^1.6.11",
     "objection-db-errors": "^1.1.1",
-    "sqlite3": "^4.1.0"
+    "sqlite3": "^4.1.0",
+    "supertest": "^4.0.2"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "jest": "^24.9.0"
+  }
 }

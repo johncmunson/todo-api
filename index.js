@@ -1,9 +1,9 @@
+require('dotenv').config()
 const express = require('express')
 const bodyParser = require('body-parser')
 const logger = require('morgan')
 const { Model } = require('objection')
-const Knex = require('knex')
-const knexConfig = require('./knexfile')
+const knex = require('./db')
 const routes = require('./routes')
 const models = require('./models')
 const {
@@ -11,7 +11,6 @@ const {
   errorHandler
 } = require('./middleware')
 
-const knex = Knex(knexConfig.development)
 Model.knex(knex)
 
 const port = process.env.PORT || 3000
@@ -29,6 +28,16 @@ app.use('/categories', routes.categories)
 
 app.use(errorHandler)
 
-app.listen(port, () =>
-  console.log(`Backend connected to database and listening on port ${port} 😋`)
-)
+// Unless using the --runInBand flag, jest tests run in parallel. If the app is
+// listening on a netwrok port we will get "EADDRINUSE - port already in use"
+// errors while running tests. Luckily, we don't need to be listening on a port
+// at all for supertest to work.
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(port, () =>
+    console.log(`Backend connected to database and listening on port ${port} 😋`)
+  )
+}
+
+module.exports = {
+  app
+}

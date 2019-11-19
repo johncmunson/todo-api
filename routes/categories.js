@@ -16,7 +16,7 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
   const { body } = req
   const category = await req.context.models.Category.create(body)
-  res.status(201).json(category)
+  return res.status(201).json(category)
 })
 
 router.delete('/:id', async (req, res) => {
@@ -29,14 +29,14 @@ router.patch('/:id', async (req, res) => {
   const { id } = req.params
   const { body } = req
   const updatedCategory = await req.context.models.Todo.edit(id, body)
-  res.status(200).json(updatedTodo)
+  return res.status(200).json(updatedTodo)
 })
 
 router.put('/:id', async (req, res) => {
   const { id } = req.params
   const { body } = req
   const newCategory = await req.context.models.Todo.replace(id, body)
-  res.status(200).json(newTodo)
+  return res.status(200).json(newTodo)
 })
 
 module.exports = router
