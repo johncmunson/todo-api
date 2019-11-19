@@ -30,3 +30,20 @@ describe('POST /todos', () => {
     expect(error.type).toEqual('ModelValidation')
   })
 })
+
+describe('DELETE /todos/{id}', async () => {
+  it('deletes a todo', async () => {
+    const todo = { title: 'Return some videotapes' }
+    const { body: newTodo, status: newTodoStatus } =
+      await request(app).post('/todos').send(todo)
+    const { status: deletedStatus } =
+      await request(app).delete(`/todos/${newTodo.id}`)
+    expect(deletedStatus).toEqual(204)
+  })
+  it('returns error when deleting a todo that does not exist', async () => {
+    const { body: error, status } =
+      await request(app).delete('/todos/ry7634y8r374')
+    expect(status).toEqual(404)
+    expect(error.type).toEqual('NotFound')
+  })
+})
