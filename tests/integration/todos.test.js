@@ -59,6 +59,7 @@ describe('PATCH /todos/:id', () => {
         .send({ complete: true })
     expect(patchedTodoStatus).toEqual(200)
     expect(patchedTodo.complete).toEqual(true)
+    expect(patchedTodo.id).toEqual(newTodo.id)
     expect(() => Todo.fromJson(patchedTodo)).not.toThrow()
   })
   it('returns error when given invalid todo', async () => {
@@ -74,7 +75,42 @@ describe('PATCH /todos/:id', () => {
   })
   it('returns error when editing a todo that does not exist', async () => {
     const { body: error, status } =
-      await request(app).delete('/todos/783y4f87y38sf')
+      await request(app).patch('/todos/783y4f87y38sf').send({ complete: true })
+    expect(status).toEqual(404)
+    expect(error.type).toEqual('NotFound')
+  })
+})
+
+describe('PUT /todos/:id', () => {
+  it('replaces a todo', async () => {
+    const todo = { title: 'Wash the car' }
+    const { body: newTodo, status: newTodoStatus } =
+      await request(app).post('/todos').send(todo)
+    const { body: replacedTodo, status: replacedTodoStatus } =
+      await request(app)
+        .put(`/todos/${newTodo.id}`)
+        .send({ title: 'Get an oil change' })
+    expect(replacedTodoStatus).toEqual(200)
+    expect(replacedTodo.title).toEqual('Get an oil change')
+    expect(replacedTodo.id).toEqual(newTodo.id)
+    expect(() => Todo.fromJson(replacedTodo)).not.toThrow()
+  })
+  it('returns error when given invalid todo', async () => {
+    const todo = { title: 'Read a book' }
+    const { body: newTodo } =
+      await request(app).post('/todos').send(todo)
+    const { body: error, status } =
+      await request(app)
+        .patch(`/todos/${newTodo.id}`)
+        .send({ qwerty: 'qwerty' })
+    expect(status).toEqual(500)
+    expect(error.type).toEqual('UnknownDatabaseError')
+  })
+  it('returns error when replacing a todo that does not exist', async () => {
+    const { body: error, status } =
+      await request(app)
+        .put('/todos/s7d8h8wf87s')
+        .send({ title: 'Drink some water' })
     expect(status).toEqual(404)
     expect(error.type).toEqual('NotFound')
   })
