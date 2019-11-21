@@ -13,3 +13,4 @@ Todo:
 - nodemon dev server
 - use cross-env to set NODE_ENV (or maybe use dotenv and a dotfile?)
 - may need to use separate jest configurations for unit/integration tests. this can be accomplished with the --config cli flag
+- version the api
