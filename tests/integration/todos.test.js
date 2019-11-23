@@ -49,19 +49,10 @@ describe('DELETE /todos/:id', () => {
 })
 
 describe('PATCH /todos/:id', () => {
-  const todoTitles = ['Lift some weights', 'Buy some flowers']
-  let newTodo
-  let newTodoStatus
-  beforeEach(async () => {
-    if (todoTitles.length) {
-      const { body, status } = await request(app)
-        .post('/todos')
-        .send({ title: todoTitles.shift() })
-      newTodo = body
-      newTodoStatus = status
-    }
-  })
   it('edits a todo', async () => {
+    const todo = { title: 'Lift some weights' }
+    const { body: newTodo, status: newTodoStatus } =
+      await request(app).post('/todos').send(todo)
     const { body: patchedTodo, status: patchedTodoStatus } =
       await request(app)
         .patch(`/todos/${newTodo.id}`)
@@ -72,6 +63,9 @@ describe('PATCH /todos/:id', () => {
     expect(() => Todo.fromJson(patchedTodo)).not.toThrow()
   })
   it('returns error when given invalid todo', async () => {
+    const todo = { title: 'Buy some flowers' }
+    const { body: newTodo } =
+      await request(app).post('/todos').send(todo)
     const { body: error, status } =
       await request(app)
         .patch(`/todos/${newTodo.id}`)
@@ -88,19 +82,10 @@ describe('PATCH /todos/:id', () => {
 })
 
 describe('PUT /todos/:id', () => {
-  const todoTitles = ['Wash the car', 'Read a book']
-  let newTodo
-  let newTodoStatus
-  beforeEach(async () => {
-    if (todoTitles.length) {
-      const { body, status } = await request(app)
-        .post('/todos')
-        .send({ title: todoTitles.shift() })
-      newTodo = body
-      newTodoStatus = status
-    }
-  })
   it('replaces a todo', async () => {
+    const todo = { title: 'Wash the car' }
+    const { body: newTodo, status: newTodoStatus } =
+      await request(app).post('/todos').send(todo)
     const { body: replacedTodo, status: replacedTodoStatus } =
       await request(app)
         .put(`/todos/${newTodo.id}`)
@@ -111,12 +96,15 @@ describe('PUT /todos/:id', () => {
     expect(() => Todo.fromJson(replacedTodo)).not.toThrow()
   })
   it('returns error when given invalid todo', async () => {
+    const todo = { title: 'Read a book' }
+    const { body: newTodo } =
+      await request(app).post('/todos').send(todo)
     const { body: error, status } =
       await request(app)
-        .patch(`/todos/${newTodo.id}`)
+        .put(`/todos/${newTodo.id}`)
         .send({ qwerty: 'qwerty' })
-    expect(status).toEqual(500)
-    expect(error.type).toEqual('UnknownDatabaseError')
+    expect(status).toEqual(400)
+    expect(error.type).toEqual('ModelValidation')
   })
   it('returns error when replacing a todo that does not exist', async () => {
     const { body: error, status } =
