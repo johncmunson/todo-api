@@ -14,4 +14,5 @@ Todo:
 - use cross-env to set NODE_ENV (or maybe use dotenv and a dotfile?)
 - may need to use separate jest configurations for unit/integration tests. this can be accomplished with the --config cli flag
 - version the api
+- follow up on [this](https://github.com/facebook/jest/issues/9227#issuecomment-557842917) to have a better setup/teardown process for tests
 - use [this](https://stackoverflow.com/questions/59011575/how-to-close-express-server-inside-jest-afterall-hook/59011973?noredirect=1#comment104271965_59011973) as an example of how to ditch supertest for axios
