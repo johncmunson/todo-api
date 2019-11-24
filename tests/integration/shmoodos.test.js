@@ -1,5 +1,11 @@
 const { Todo } = require('../../models')
 
+// This test suite is just a copy
+// of todos.test.js to make sure
+// that the testing setup/teardown
+// process works when running tests
+// in parallel.
+
 describe('[copy] GET /todos', () => {
   it('[copy] returns a list of todos', async () => {
     const { body: todos } = await request(app).get('/todos')
