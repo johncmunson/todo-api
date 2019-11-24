@@ -1,7 +1,7 @@
 const { Todo } = require('../../models')
 
-describe('GET /todos', () => {
-  it('returns a list of todos', async () => {
+describe('[copy] GET /todos', () => {
+  it('[copy] returns a list of todos', async () => {
     const { body: todos } = await request(app).get('/todos')
     todos.forEach(todo => {
       expect(() => Todo.fromJson(todo)).not.toThrow()
@@ -9,8 +9,8 @@ describe('GET /todos', () => {
   })
 })
 
-describe('POST /todos', () => {
-  it('creates a new todo', async () => {
+describe('[copy] POST /todos', () => {
+  it('[copy] creates a new todo', async () => {
     const todo = { title: 'Setup for the party' }
     const { body: newTodo, status: newTodoStatus } =
       await request(app).post('/todos').send(todo)
@@ -22,7 +22,7 @@ describe('POST /todos', () => {
     expect(() => Todo.fromJson(fetchedTodo)).not.toThrow()
     expect(newTodo).toEqual(fetchedTodo)
   })
-  it('returns error when given invalid todo', async () => {
+  it('[copy] returns error when given invalid todo', async () => {
     const { body: error, status } =
       await request(app).post('/todos').send({})
     expect(status).toEqual(400)
@@ -30,8 +30,8 @@ describe('POST /todos', () => {
   })
 })
 
-describe('DELETE /todos/:id', () => {
-  it('deletes a todo', async () => {
+describe('[copy] DELETE /todos/:id', () => {
+  it('[copy] deletes a todo', async () => {
     const todo = { title: 'Return some videotapes' }
     const { body: newTodo, status: newTodoStatus } =
       await request(app).post('/todos').send(todo)
@@ -39,7 +39,7 @@ describe('DELETE /todos/:id', () => {
       await request(app).delete(`/todos/${newTodo.id}`)
     expect(deletedStatus).toEqual(204)
   })
-  it('returns error when deleting a todo that does not exist', async () => {
+  it('[copy] returns error when deleting a todo that does not exist', async () => {
     const { body: error, status } =
       await request(app).delete('/todos/ry7634y8r374')
     expect(status).toEqual(404)
@@ -47,7 +47,7 @@ describe('DELETE /todos/:id', () => {
   })
 })
 
-describe('PATCH /todos/:id', () => {
+describe('[copy] PATCH /todos/:id', () => {
   const todoTitles = ['Lift some weights', 'Buy some flowers']
   let newTodo
   let newTodoStatus
@@ -60,7 +60,7 @@ describe('PATCH /todos/:id', () => {
       newTodoStatus = status
     }
   })
-  it('edits a todo', async () => {
+  it('[copy] edits a todo', async () => {
     const { body: patchedTodo, status: patchedTodoStatus } =
       await request(app)
         .patch(`/todos/${newTodo.id}`)
@@ -70,7 +70,7 @@ describe('PATCH /todos/:id', () => {
     expect(patchedTodo.id).toEqual(newTodo.id)
     expect(() => Todo.fromJson(patchedTodo)).not.toThrow()
   })
-  it('returns error when given invalid todo', async () => {
+  it('[copy] returns error when given invalid todo', async () => {
     const { body: error, status } =
       await request(app)
         .patch(`/todos/${newTodo.id}`)
@@ -78,7 +78,7 @@ describe('PATCH /todos/:id', () => {
     expect(status).toEqual(500)
     expect(error.type).toEqual('UnknownDatabaseError')
   })
-  it('returns error when editing a todo that does not exist', async () => {
+  it('[copy] returns error when editing a todo that does not exist', async () => {
     const { body: error, status } =
       await request(app).patch('/todos/783y4f87y38sf').send({ complete: true })
     expect(status).toEqual(404)
@@ -86,7 +86,7 @@ describe('PATCH /todos/:id', () => {
   })
 })
 
-describe('PUT /todos/:id', () => {
+describe('[copy] PUT /todos/:id', () => {
   const todoTitles = ['Wash the car', 'Read a book']
   let newTodo
   let newTodoStatus
@@ -99,7 +99,7 @@ describe('PUT /todos/:id', () => {
       newTodoStatus = status
     }
   })
-  it('replaces a todo', async () => {
+  it('[copy] replaces a todo', async () => {
     const { body: replacedTodo, status: replacedTodoStatus } =
       await request(app)
         .put(`/todos/${newTodo.id}`)
@@ -109,7 +109,7 @@ describe('PUT /todos/:id', () => {
     expect(replacedTodo.id).toEqual(newTodo.id)
     expect(() => Todo.fromJson(replacedTodo)).not.toThrow()
   })
-  it('returns error when given invalid todo', async () => {
+  it('[copy] returns error when given invalid todo', async () => {
     const { body: error, status } =
       await request(app)
         .put(`/todos/${newTodo.id}`)
@@ -117,7 +117,7 @@ describe('PUT /todos/:id', () => {
     expect(status).toEqual(400)
     expect(error.type).toEqual('ModelValidation')
   })
-  it('returns error when replacing a todo that does not exist', async () => {
+  it('[copy] returns error when replacing a todo that does not exist', async () => {
     const { body: error, status } =
       await request(app)
         .put('/todos/s7d8h8wf87s')
