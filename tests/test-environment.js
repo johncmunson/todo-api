@@ -1,7 +1,6 @@
 const NodeEnvironment = require('jest-environment-node')
 const request = require('supertest')
 const { app } = require('../index')
-const knex = require('../db')
 
 // Jest creates a new test environment for each test suite
 class TestEnvironment extends NodeEnvironment {
@@ -19,7 +18,6 @@ class TestEnvironment extends NodeEnvironment {
   }
 
   async teardown() {
-    await knex.destroy()
     await super.teardown()
   }
 
