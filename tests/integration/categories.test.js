@@ -31,13 +31,20 @@ describe('POST /categories', () => {
 })
 
 describe('DELETE /categories/:id', () => {
-  it('deletes a category', async () => {
+  it('deletes a category and sets categoryId to null on related todos', async () => {
     const category = { name: 'Aspirations' }
     const { body: newCategory, status: newCategoryStatus } =
       await request(app).post('/categories').send(category)
+    const todo = { title: 'Run a marathon', categoryId: newCategory.id }
+    const { body: todoWithCategory } =
+      await request(app).post('/todos').send(todo)
     const { status: deletedStatus } =
       await request(app).delete(`/categories/${newCategory.id}`)
+    const { body: todoWithoutCategory } =
+      await request(app).get(`/todos/${todoWithCategory.id}`)
     expect(deletedStatus).toEqual(204)
+    expect(todoWithCategory.categoryId).toEqual(newCategory.id)
+    expect(todoWithoutCategory.categoryId).toEqual(null)
   })
   it('returns error when deleting a category that does not exist', async () => {
     const { body: error, status } =
