@@ -25,7 +25,7 @@ class Category extends Base {
         modelClass: `${__dirname}/todo`,
         join: {
           from: 'category.id',
-          to: 'todo.category_id'
+          to: 'todo.categoryId'
         }
       }
     }

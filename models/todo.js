@@ -53,7 +53,7 @@ class Todo extends Base {
         relation: Model.BelongsToOneRelation,
         modelClass: `${__dirname}/category`,
         join: {
-          from: 'todo.category_id',
+          from: 'todo.categoryId',
           to: 'category.id'
         }
       }
