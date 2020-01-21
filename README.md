@@ -9,11 +9,13 @@ Todo:
 - add error responses to openapi.yaml
   - probably just need the common ones like 404, plus a default
   - not feasible to document all possible error responses
-- follow up with [this issue](https://github.com/OAI/OpenAPI-Specification/issues/2057) regarding defaulting values to null in OpenAPI
 - nodemon dev server
-- use cross-env to set NODE_ENV (or maybe use dotenv and a dotfile?)
-- may need to use separate jest configurations for unit/integration tests. this can be accomplished with the --config cli flag
+- consider using this approach to loading dotenv config instead of requiring dotenv in multiple spots in the source code
+  - https://github.com/motdotla/dotenv#preload
+- write unit tests and strive for 100% test coverage
+  - may need to use separate jest configurations for unit/integration tests. this can be accomplished with the --config cli flag
 - version the api
-- follow up on [this](https://github.com/facebook/jest/issues/9227#issuecomment-557842917) to have a better setup/teardown process for tests
-- use [this](https://stackoverflow.com/questions/59011575/how-to-close-express-server-inside-jest-afterall-hook/59011973?noredirect=1#comment104271965_59011973) as an example of how to ditch supertest for axios
-- setup an npm script for test coverage
+- setup the standard tooling for a Node project
+  - eslint
+  - prettier
+  - husky (run tests + eslint + prettier as githooks)

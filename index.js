@@ -30,8 +30,10 @@ app.use(errorHandler)
 
 // Unless using the --runInBand flag, jest tests run in parallel. If the app is
 // listening on a netwrok port we will get "EADDRINUSE - port already in use"
-// errors while running tests. Luckily, we don't need to be listening on a port
-// at all for supertest to work.
+// errors while running integration tests. Luckily, we don't need to be
+// listening on a port at all for supertest to work. Internally, supertest will
+// take the app and run it on port 0, which is how you tell Unix "randomly
+// select the first available port you find".
 if (process.env.NODE_ENV !== 'test') {
   app.listen(port, () =>
     console.log(`Backend connected to database and listening on port ${port} 😋`)
