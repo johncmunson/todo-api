@@ -3,7 +3,13 @@ const { Router } = require('express')
 const router = Router()
 
 router.get('/', async (req, res) => {
-  const todos = await req.context.models.Todo.readAll()
+  let todos
+  if (req.query.relations) {
+    const relations = req.query.relations.split(',')
+    todos = await req.context.models.Todo.readAll({ relations })
+  } else {
+    todos = await req.context.models.Todo.readAll()
+  }
   return res.status(200).json(todos)
 })
 

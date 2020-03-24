@@ -18,7 +18,7 @@
     "migrate": "knex migrate:latest",
     "create-seed": "knex seed:make",
     "seed": "knex seed:run",
-    "tests": "jest test",
+    "test": "jest test",
     "test-unit": "jest tests/unit",
     "test-integration": "jest tests/integration"
   },

@@ -3,6 +3,7 @@ const { DBErrors } = require ('objection-db-errors')
 const { isNullOrUndefined } = require('../utils')
 
 class Base extends DBErrors(Model) {
+
   castValues(valuesDict, json) {
     Object.keys(valuesDict).forEach(key => {
       const type = valuesDict[key]
@@ -27,12 +28,33 @@ class Base extends DBErrors(Model) {
     })
     return json
   }
+
   static create(data) {
     return this.query().insertAndFetch(data)
   }
-  static readAll() {
+
+  static readAll(options = {}) {
+    const defaults = { relations: [] }
+    options = { ...defaults, ...options }
+    if (options.relations.length) {
+      const relationsObj = options.relations.reduce((obj, relation) => {
+        obj[relation] = {}
+        return obj
+      }, {})
+      return this.query()
+        .withGraphFetched(relationsObj)
+        .then(rows => {
+          rows.forEach(row => {
+            options.relations.forEach(relation => {
+              delete row[`${relation}Id`]
+            })
+          })
+          return rows
+        })
+    }
     return this.query()
   }
+
   static readById(id) {
     return this.query().findById(id).throwIfNotFound()
   }
@@ -40,12 +62,15 @@ class Base extends DBErrors(Model) {
     const newResource = this.fromJson(data)
     return this.query().updateAndFetchById(id, newResource).throwIfNotFound()
   }
+
   static edit(id, data) {
     return this.query().patchAndFetchById(id, data).throwIfNotFound()
   }
+
   static delete(id) {
     return this.query().findById(id).delete().throwIfNotFound()
   }
+
 }
 
 module.exports = Base

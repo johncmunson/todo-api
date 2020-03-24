@@ -3,6 +3,7 @@ const { Todo } = require('../../models')
 describe('GET /todos', () => {
   it('returns a list of todos', async () => {
     const { body: todos } = await request(app).get('/todos')
+    console.log({todos})
     todos.forEach(todo => {
       expect(() => Todo.fromJson(todo)).not.toThrow()
     })

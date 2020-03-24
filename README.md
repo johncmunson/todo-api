@@ -6,6 +6,9 @@
 
 
 Todo:
+- https://softwareengineering.stackexchange.com/questions/266695/rest-full-design-recommended-approach-for-fetching-related-entities
+- standardize on module.exports = { a } rather than module.exports = a
+- implement a tag system
 - add error responses to openapi.yaml
   - probably just need the common ones like 404, plus a default
   - not feasible to document all possible error responses
