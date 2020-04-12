@@ -3,13 +3,25 @@ const { Router } = require('express')
 const router = Router()
 
 router.get('/', async (req, res) => {
-  const categories = await req.context.models.Category.readAll()
+  let categories
+  if (req.query.relations) {
+    const relations = req.query.relations.split(',')
+    categories = await req.context.models.Category.readAll({ relations })
+  } else {
+    categories = await req.context.models.Category.readAll()
+  }
   return res.status(200).json(categories)
 })
 
 router.get('/:id', async (req, res) => {
   const { id } = req.params
-  const category = await req.context.models.Category.readById(id)
+  let category
+  if (req.query.relations) {
+    const relations = req.query.relations.split(',')
+    category = await req.context.models.Category.readById(id, { relations })
+  } else {
+    category = await req.context.models.Category.readById(id)
+  }
   return res.status(200).json(category)
 })
 

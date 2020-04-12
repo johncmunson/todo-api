@@ -3,52 +3,52 @@ const { Router } = require('express')
 const router = Router()
 
 router.get('/', async (req, res) => {
-  let todos
+  let tags
   if (req.query.relations) {
     const relations = req.query.relations.split(',')
-    todos = await req.context.models.Todo.readAll({ relations })
+    tags = await req.context.models.Tag.readAll({ relations })
   } else {
-    todos = await req.context.models.Todo.readAll()
+    tags = await req.context.models.Tag.readAll()
   }
-  return res.status(200).json(todos)
+  return res.status(200).json(tags)
 })
 
 router.get('/:id', async (req, res) => {
   const { id } = req.params
-  let todo
+  let tag
   if (req.query.relations) {
     const relations = req.query.relations.split(',')
-    todo = await req.context.models.Todo.readById(id, { relations })
+    tag = await req.context.models.Tag.readById(id, { relations })
   } else {
-    todo = await req.context.models.Todo.readById(id)
+    tag = await req.context.models.Tag.readById(id)
   }
-  return res.status(200).json(todo)
+  return res.status(200).json(tag)
 })
 
 router.post('/', async (req, res) => {
   const { body } = req
-  const todo = await req.context.models.Todo.create(body)
-  return res.status(201).json(todo)
+  const tag = await req.context.models.Tag.create(body)
+  return res.status(201).json(tag)
 })
 
 router.delete('/:id', async (req, res) => {
   const { id } = req.params
-  await req.context.models.Todo.delete(id)
+  await req.context.models.Tag.delete(id)
   return res.status(204).json()
 })
 
 router.patch('/:id', async (req, res) => {
   const { id } = req.params
   const { body } = req
-  const updatedTodo = await req.context.models.Todo.edit(id, body)
-  return res.status(200).json(updatedTodo)
+  const updatedTag = await req.context.models.Tag.edit(id, body)
+  return res.status(200).json(updatedTag)
 })
 
 router.put('/:id', async (req, res) => {
   const { id } = req.params
   const { body } = req
-  const newTodo = await req.context.models.Todo.replace(id, body)
-  return res.status(200).json(newTodo)
+  const newTag = await req.context.models.Tag.replace(id, body)
+  return res.status(200).json(newTag)
 })
 
 module.exports = router

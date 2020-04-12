@@ -25,6 +25,7 @@ app.use(createContext({ models }))
 app.use('/', routes.root)
 app.use('/todos', routes.todos)
 app.use('/categories', routes.categories)
+app.use('/tags', routes.tags)
 
 app.use(errorHandler)
 

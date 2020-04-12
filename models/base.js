@@ -4,6 +4,10 @@ const { isNullOrUndefined } = require('../utils')
 
 class Base extends DBErrors(Model) {
 
+  static get modelPaths() {
+    return [ __dirname ]
+  }
+
   castValues(valuesDict, json) {
     Object.keys(valuesDict).forEach(key => {
       const type = valuesDict[key]
@@ -29,6 +33,25 @@ class Base extends DBErrors(Model) {
     return json
   }
 
+  static formatRelations(relations) {
+    return relations.reduce((obj, relation) => {
+      obj[relation] = {}
+      return obj
+    }, {})
+  }
+
+  static removeRelationalIdsFromItem(item, relations) {
+    relations.forEach(relation => {
+      delete item[`${relation}Id`]
+    })
+    return item
+  }
+
+  static removeRelationalIdsFromItems(items, relations) {
+    items.forEach(item => this.removeRelationalIdsFromItem(item, relations))
+    return items
+  }
+
   static create(data) {
     return this.query().insertAndFetch(data)
   }
@@ -37,27 +60,28 @@ class Base extends DBErrors(Model) {
     const defaults = { relations: [] }
     options = { ...defaults, ...options }
     if (options.relations.length) {
-      const relationsObj = options.relations.reduce((obj, relation) => {
-        obj[relation] = {}
-        return obj
-      }, {})
+      const relations = this.formatRelations(options.relations)
       return this.query()
-        .withGraphFetched(relationsObj)
-        .then(rows => {
-          rows.forEach(row => {
-            options.relations.forEach(relation => {
-              delete row[`${relation}Id`]
-            })
-          })
-          return rows
-        })
+        .withGraphFetched(relations)
+        .then(items => this.removeRelationalIdsFromItems(items, options.relations))
     }
     return this.query()
   }
 
-  static readById(id) {
+  static readById(id, options = {}) {
+    const defaults = { relations: [] }
+    options = { ...defaults, ...options }
+    if (options.relations.length) {
+      const relations = this.formatRelations(options.relations)
+      return this.query()
+        .findById(id)
+        .throwIfNotFound()
+        .withGraphFetched(relations)
+        .then(item => this.removeRelationalIdsFromItem(item, options.relations))
+    }
     return this.query().findById(id).throwIfNotFound()
   }
+
   static replace(id, data) {
     const newResource = this.fromJson(data)
     return this.query().updateAndFetchById(id, newResource).throwIfNotFound()

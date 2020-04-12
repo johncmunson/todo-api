@@ -1,10 +1,10 @@
 const { Model } = require('objection')
 const Base = require('./base')
 
-class Category extends Base {
+class Tag extends Base {
 
   static get tableName() {
-    return 'category'
+    return 'tag'
   }
 
   static get jsonSchema() {
@@ -14,6 +14,8 @@ class Category extends Base {
       properties: {
         id: { type: 'integer' },
         name: { type: 'string' }
+        // Are relational data needed in the schema?
+        // todos
       }
     }
   }
@@ -21,11 +23,15 @@ class Category extends Base {
   static get relationMappings() {
     return {
       todos: {
-        relation: Model.HasManyRelation,
+        relation: Model.ManyToManyRelation,
         modelClass: 'todo',
         join: {
-          from: 'category.id',
-          to: 'todo.categoryId'
+          from: 'tag.id',
+          through: {
+            from: 'todo_tag.tagId',
+            to: 'todo_tag.todoId'
+          },
+          to: 'todo.id'
         }
       }
     }
@@ -33,4 +39,4 @@ class Category extends Base {
 
 }
 
-module.exports = Category
+module.exports = Tag

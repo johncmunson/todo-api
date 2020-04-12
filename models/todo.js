@@ -21,14 +21,16 @@ class Todo extends Base {
         title: { type: 'string' },
         complete: { type: 'boolean', default: false },
         archived: { type: 'boolean', default: false },
-        note: { type: ['string', 'null'], default: null },
-        dueDate: { type: ['string', 'null'], default: null },
+        note: { type: [ 'string', 'null' ], default: null },
+        dueDate: { type: [ 'string', 'null' ], default: null },
         priority: {
           type: 'string',
-          enum: ['low', 'medium', 'high'],
+          enum: [ 'low', 'medium', 'high' ],
           default: 'medium'
         },
-        categoryId: { type: ['integer', 'null'], default: null }
+        categoryId: { type: [ 'integer', 'null' ], default: null }
+        // Are relational data needed in the schema?
+        // category, tags
       }
     }
   }
@@ -51,10 +53,22 @@ class Todo extends Base {
     return {
       category: {
         relation: Model.BelongsToOneRelation,
-        modelClass: `${__dirname}/category`,
+        modelClass: 'category',
         join: {
           from: 'todo.categoryId',
           to: 'category.id'
+        }
+      },
+      tags: {
+        relation: Model.ManyToManyRelation,
+        modelClass: 'tag',
+        join: {
+          from: 'todo.id',
+          through: {
+            from: 'todo_tag.todoId',
+            to: 'todo_tag.tagId'
+          },
+          to: 'tag.id'
         }
       }
     }
