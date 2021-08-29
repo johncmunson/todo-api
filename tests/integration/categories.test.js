@@ -88,7 +88,7 @@ describe('DELETE /categories/:id', () => {
 })
 
 describe('PATCH /categories/:id', () => {
-  it('edits a category', async () => {
+  it('checks if the name of a category can be edited without errors', async () => {
     const { body: newCategory } = await request(app)
       .post('/categories')
       .send({ name: 'Someday' })
